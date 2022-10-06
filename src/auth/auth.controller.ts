@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
+import { ProductsService } from 'src/products/products.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService,
+    private readonly productsService: ProductsService) {}
 
   @Post('create')
   create(@Body() createAuthDto: CreateAuthDto) {
@@ -13,6 +15,16 @@ export class AuthController {
 
   @Get('login')
   login(@Body() user: CreateAuthDto) {
-    return this.authService.loginUser(user);
+    try{
+      const loggedUser = this.authService.loginUser(user);
+      if(loggedUser){
+        const data = this.productsService.getProducts()
+        return data
+      }
+    } catch(err){
+      throw new HttpException("Something went wrong", HttpStatus.BAD_REQUEST)
+    }
+    
   }
 }
+ 
