@@ -1,6 +1,6 @@
 export class CreateAuthDto {
-    firstName: String;
-    lastName: String;
-    email: String;
+    firstName: string;
+    lastName: string;
+    email: string;
     password: string
 }

@@ -7,13 +7,13 @@ export type UserModel = User & Document
 export class User {
 
     @Prop({required : true})
-    firstName : String;
+    firstName : string;
 
     @Prop()
-    lastName : String;
+    lastName : string;
 
     @Prop({unique : true})
-    email : String;
+    email : string;
 
     @Prop({required : true})
     password : string;
